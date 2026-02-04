@@ -1,59 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📦 Aplikasi Peminjaman Alat Inventaris (UKK-Inventaris)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi berbasis web ini dirancang untuk mendigitalisasi manajemen sarana dan prasarana di lingkungan sekolah. Sistem ini mencakup seluruh siklus peminjaman alat, mulai dari manajemen data master hingga pelacakan log aktivitas pengguna.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Multi-Role Access**: Mendukung 3 tingkat hak akses: **Admin**, **Petugas**, dan **Siswa**.
+* **Validasi Stok Ganda**: Sistem secara otomatis menolak peminjaman jika jumlah melebihi stok tersedia (Validasi di sisi *Client* via JavaScript dan *Server* via Controller).
+* **Manajemen Inventaris Otomatis**: Stok berkurang saat peminjaman disetujui petugas dan bertambah kembali saat barang dikembalikan.
+* **CRUD Data Master**: Pengelolaan penuh untuk data User, Kategori, dan Barang/Alat.
+* **Audit Log Aktivitas**: Mencatat setiap tindakan krusial pengguna untuk transparansi dan keamanan sistem.
+* **Laporan Siap Cetak**: Fitur cetak laporan transaksi khusus untuk role Petugas dengan format ramah cetak (CSS `@media print`).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🔧 Teknologi yang Digunakan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+* **Framework**: Laravel 10/11
+* **Frontend**: Tailwind CSS (via Laravel Breeze)
+* **Database**: MySQL
+* **Bahasa**: PHP >= 8.1, JavaScript (Vanilla)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠️ Langkah-Langkah Menjalankan Project
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1.  **Clone Project**
+    ```bash
+    git clone [https://github.com/username/project-name.git](https://github.com/username/project-name.git)
+    cd project-name
+    ```
 
-### Premium Partners
+2.  **Instalasi Dependensi**
+    ```bash
+    composer install
+    npm install && npm run dev
+    ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+3.  **Pengaturan Environment**
+    Salin file `.env.example` menjadi `.env` dan sesuaikan pengaturan database Anda:
+    ```bash
+    cp .env.example .env
+    ```
 
-## Contributing
+4.  **Generate App Key**
+    ```bash
+    php artisan key:generate
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5.  **Migrasi & Seeding Database**
+    Jalankan perintah ini untuk membuat tabel dan mengisi data awal (Admin, Kategori, Alat):
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
 
-## Code of Conduct
+6.  **Jalankan Server**
+    ```bash
+    php artisan serve
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 📂 Panduan Penyesuaian (Customization Guide)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Database & Migrasi
+* **Lokasi**: `database/migrations/`
+* **Ubah Koneksi**: Buka file `.env` dan sesuaikan bagian `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD`.
+* **Data Awal**: Edit `database/seeders/DatabaseSeeder.php` untuk mengubah data default saat instalasi.
 
-## License
+### 2. Model (Logika Data)
+* `app/Models/Barang.php`: Tempat mengatur relasi ke kategori dan kolom yang boleh diisi (`$fillable`).
+* `app/Models/Peminjaman.php`: Mengatur relasi antara pengguna dan barang yang dipinjam.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Controller (Logika Bisnis)
+* `app/Http/Controllers/PeminjamanController.php`: **File Terpenting**. Di sini terdapat logika pengurangan stok saat disetujui, penambahan stok saat kembali, dan validasi batas maksimal pinjam.
+
+### 4. View (Tampilan)
+* `resources/views/dashboard.blade.php`: Seluruh antarmuka dashboard Admin, Petugas, dan Siswa berada di file ini.
+
+---
+
+## 🔄 Alur Kerja Sistem (Workflow)
+
+1.  **Tahapan Persiapan**: Admin menginput Kategori dan Data Barang melalui dashboard.
+2.  **Tahapan Pengajuan**: Siswa memilih alat berdasarkan kategori. Sistem mengecek stok secara *real-time*. Jika stok cukup, data disimpan dengan status `PENDING`.
+3.  **Tahapan Validasi**: Petugas meninjau daftar `PENDING`. Jika diklik **SETUJU**, status berubah menjadi `APPROVED` dan **stok barang otomatis berkurang**.
+4.  **Tahapan Pengembalian**: Setelah barang kembali, Petugas/Admin mengklik **ISI KEMBALI**. Status berubah menjadi `RETURNED` dan **stok barang bertambah kembali**.
+5.  **Audit**: Admin memantau seluruh proses melalui panel **Audit Log Aktivitas**.
+
+---
+
+**Dibuat oleh:** [Nama Anda] – Siswa SMK Informatika Al Irsyad Cirebon.
